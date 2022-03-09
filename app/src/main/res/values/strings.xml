@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Vinvest</string>
+    <string name="error_please_try_again_later">Error! Please Try Again Later</string>
+    <string name="wallet">Cüzdan</string>
+    <string name="coinlogo">Coin Logo</string>
+    <string name="current_value">Current Value</string>
+</resources>
