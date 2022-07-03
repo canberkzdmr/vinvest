@@ -7,6 +7,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.canberkozdemir.vinvest.R
+import java.text.DecimalFormat
 
 fun ImageView.downloadFromUrl(url: String?, progressDrawable: CircularProgressDrawable) {
     val options = RequestOptions()
@@ -30,4 +31,11 @@ fun placeHolderProgressBar(context: Context): CircularProgressDrawable {
 @BindingAdapter("android:downloadUrl")
 fun downloadImage(view: ImageView, url: String?) {
     view.downloadFromUrl(url, placeHolderProgressBar(view.context))
+}
+
+/**
+ * This method converts given String to number with 4 decimals.
+ */
+fun formatTo4Decimals (value: String): String {
+    return DecimalFormat("#,###.#####").format(value.toFloat()).toString()
 }

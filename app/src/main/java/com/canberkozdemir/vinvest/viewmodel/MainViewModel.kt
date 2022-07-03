@@ -8,6 +8,7 @@ import com.canberkozdemir.vinvest.service.coin.CoinAPIService
 import com.canberkozdemir.vinvest.service.coin.CoinDatabase
 import com.canberkozdemir.vinvest.util.CustomSharedPreferences
 import com.canberkozdemir.vinvest.util.Minutes
+import com.canberkozdemir.vinvest.util.formatTo4Decimals
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -55,7 +56,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<Coin>>() {
                     override fun onSuccess(t: List<Coin>) {
-                        storeInSQLite(t)
+                        storeInSQLite(convertPricesTo2Decimal(t))
                         Toast.makeText(getApplication(), "Coins updated online!", Toast.LENGTH_LONG)
                             .show()
                     }
@@ -82,6 +83,14 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
             showCoins(coinList)
         }
         customPreference.saveTime(System.nanoTime())
+    }
+
+    private fun convertPricesTo2Decimal(coins: List<Coin>): List<Coin>{
+        for (i in coins.indices) {
+            if (coins[i].currentPrice.isNotEmpty())
+                coins[i].currentPrice = formatTo4Decimals(coins[i].currentPrice)
+        }
+        return coins
     }
 
     private fun showCoins(coinList: List<Coin>) {

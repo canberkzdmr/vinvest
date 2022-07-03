@@ -9,5 +9,22 @@
         android:id="@+id/mainFragment"
         android:name="com.canberkozdemir.vinvest.view.MainFragment"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/main_fragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.canberkozdemir.vinvest.view.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" />
+    <fragment
+        android:id="@+id/coinDetailFragment"
+        android:name="com.canberkozdemir.vinvest.view.CoinDetailFragment"
+        android:label="CoinDetailFragment" >
+        <action
+            android:id="@+id/action_coinDetailFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

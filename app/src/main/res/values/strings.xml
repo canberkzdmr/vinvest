@@ -4,4 +4,6 @@
     <string name="wallet">Cüzdan</string>
     <string name="coinlogo">Coin Logo</string>
     <string name="current_value">Current Value</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

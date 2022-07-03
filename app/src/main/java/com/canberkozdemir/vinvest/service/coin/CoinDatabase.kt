@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.canberkozdemir.vinvest.model.Coin
 
-@Database(entities = arrayOf(Coin::class), version = 2)
+@Database(entities = [Coin::class], version = 3)
 abstract class CoinDatabase : RoomDatabase() {
 
     abstract fun coinDao(): CoinDAO

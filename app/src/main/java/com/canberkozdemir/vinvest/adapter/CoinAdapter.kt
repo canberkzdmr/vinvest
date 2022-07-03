@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.canberkozdemir.vinvest.R
 import com.canberkozdemir.vinvest.databinding.ItemCoinRowBinding
 import com.canberkozdemir.vinvest.model.Coin
+import com.canberkozdemir.vinvest.view.MainFragmentDirections
 
 class CoinAdapter(val coinList: ArrayList<Coin>) :
     RecyclerView.Adapter<CoinAdapter.CoinViewHolder>(), ICoinClickListener {
@@ -39,7 +41,8 @@ class CoinAdapter(val coinList: ArrayList<Coin>) :
     }
 
     override fun onCoinClicked(v: View) {
-        TODO("Not yet implemented")
+        val action = MainFragmentDirections.actionMainFragmentToCoinDetailFragment()
+        Navigation.findNavController(v).navigate(action)
     }
 
 }
