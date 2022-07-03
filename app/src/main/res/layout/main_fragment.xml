@@ -7,12 +7,13 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.MainFragment">
+        tools:context=".view.MainFragment"
+        android:background="@color/blackGr">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/saveEyesWhite">
+            android:background="@color/blackGr">
 
             <LinearLayout
                 android:id="@+id/llUserInfo"

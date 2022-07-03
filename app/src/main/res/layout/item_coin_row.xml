@@ -13,7 +13,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/black"
+        android:background="@color/blackGr"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:onClick="@{listener::onCoinClicked}">

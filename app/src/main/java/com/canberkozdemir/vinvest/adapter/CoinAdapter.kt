@@ -10,6 +10,7 @@ import com.canberkozdemir.vinvest.R
 import com.canberkozdemir.vinvest.databinding.ItemCoinRowBinding
 import com.canberkozdemir.vinvest.model.Coin
 import com.canberkozdemir.vinvest.view.MainFragmentDirections
+import kotlinx.android.synthetic.main.item_coin_row.view.*
 
 class CoinAdapter(val coinList: ArrayList<Coin>) :
     RecyclerView.Adapter<CoinAdapter.CoinViewHolder>(), ICoinClickListener {
@@ -42,6 +43,7 @@ class CoinAdapter(val coinList: ArrayList<Coin>) :
 
     override fun onCoinClicked(v: View) {
         val action = MainFragmentDirections.actionMainFragmentToCoinDetailFragment()
+        action.coinUuid = 757
         Navigation.findNavController(v).navigate(action)
     }
 

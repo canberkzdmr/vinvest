@@ -26,5 +26,9 @@
         <action
             android:id="@+id/action_coinDetailFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <argument
+            android:name="coinUuid"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>
