@@ -4,8 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity
+@Entity (tableName = "COIN")
 data class Coin(
+    @SerializedName("id")
+    val coinId: String,
     @SerializedName("name")
     val currency: String,
     @SerializedName("symbol")
@@ -14,7 +16,6 @@ data class Coin(
     var currentPrice: String,
     @SerializedName("image")
     val imageUrl: String,
-    //latest
     @SerializedName("market_cap")
     val marketCap: String,
     @SerializedName("market_cap_rank")

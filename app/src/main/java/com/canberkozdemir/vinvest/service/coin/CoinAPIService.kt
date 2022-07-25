@@ -1,6 +1,7 @@
 package com.canberkozdemir.vinvest.service.coin
 
 import com.canberkozdemir.vinvest.model.Coin
+import com.canberkozdemir.vinvest.model.CoinMarketHistory
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -15,7 +16,11 @@ class CoinAPIService {
         .build()
         .create(CoinAPI::class.java)
 
-    fun getData(): Single<List<Coin>> {
-        return api.getData("1")
+    fun getCoinInfo(): Single<List<Coin>> {
+        return api.getCoinInfo("1")
+    }
+
+    fun getCoinMarketHistoryByCoin(coinId: String): Single<CoinMarketHistory> {
+        return api.getMarketHistoryByCoin(coinId)
     }
 }

@@ -43,7 +43,7 @@ class CoinAdapter(val coinList: ArrayList<Coin>) :
 
     override fun onCoinClicked(v: View) {
         val action = MainFragmentDirections.actionMainFragmentToCoinDetailFragment()
-        action.coinUuid = 757
+        action.coinUuid = v.tvuuId.text.toString().toInt()
         Navigation.findNavController(v).navigate(action)
     }
 

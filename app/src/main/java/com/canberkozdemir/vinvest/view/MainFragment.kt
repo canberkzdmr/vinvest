@@ -1,5 +1,6 @@
 package com.canberkozdemir.vinvest.view
 
+import android.app.ProgressDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 
@@ -26,7 +27,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.refreshData()
 
         coinList.layoutManager = LinearLayoutManager(context)
