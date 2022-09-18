@@ -2,15 +2,13 @@ package com.canberkozdemir.vinvest.viewmodel
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.canberkozdemir.vinvest.model.*
 import com.canberkozdemir.vinvest.service.coin.CoinAPIService
 import com.canberkozdemir.vinvest.service.coin.CoinDatabase
-import com.canberkozdemir.vinvest.util.CustomSharedPreferences
-import com.canberkozdemir.vinvest.util.Minutes
-import com.canberkozdemir.vinvest.util.formatTo5Decimals
-import com.canberkozdemir.vinvest.util.unixTimeStampToDateString
+import com.canberkozdemir.vinvest.service.coin.storePriceHistoryInSQLite
+import com.canberkozdemir.vinvest.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -21,10 +19,12 @@ import java.math.BigDecimal
 class MainViewModel(application: Application) : BaseViewModel(application) {
     private val coinAPIService = CoinAPIService()
     private val disposable = CompositeDisposable()
-    private val disposableMarketHistory = CompositeDisposable()
     private var customPreference = CustomSharedPreferences(getApplication())
     private var refreshTime = Minutes.TEN_MINUTES.millisecondValue
 
+    private val getCoinMsg = MutableLiveData<Resource<Coin>>()
+    val getCoinMessage: LiveData<Resource<Coin>>
+        get() = getCoinMsg
     val coins = MutableLiveData<List<Coin>>()
     val coinError = MutableLiveData<Boolean>()
     val coinLoadingProgress = MutableLiveData<Boolean>()
@@ -46,7 +46,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val coins = CoinDatabase(getApplication()).coinDao().getAllCoins()
             showCoins(coins)
-//            Toast.makeText(getApplication(), "Coin data retrieved from local!", Toast.LENGTH_LONG).show()
+            getCoinMsg.postValue(Resource.success("Data retrieved from local!", null))
             Log.i("LOCAL", "getDataFromSQLite: Data retrieved from local")
         }
     }
@@ -54,6 +54,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun refreshDataFromAPI() {
         getCoinInfoFromAPI()
         getCoinMarketHistory()
+        getCoinMsg.postValue(Resource.success("Coins updated online!", null))
     }
 
     private fun getCoinMarketHistory() {
@@ -94,8 +95,6 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
                 .subscribeWith(object : DisposableSingleObserver<List<Coin>>() {
                     override fun onSuccess(t: List<Coin>) {
                         storeCoinInfoInSQLite(convertPricesTo5Decimal(t))
-                        Toast.makeText(getApplication(), "Coins updated online!", Toast.LENGTH_LONG)
-                            .show()
                     }
 
                     override fun onError(e: Throwable) {
@@ -111,7 +110,10 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
         coinHistory: CoinMarketHistory,
         coinId: String
     ) {
-        storePriceHistoryInSQLite(coinHistory.prices, coinId)
+
+        launch {
+            storePriceHistoryInSQLite(coinHistory.prices, coinId, getApplication())
+        }
         storeMarketCapsHistoryInSQLite(coinHistory.market_caps, coinId)
         storeTotalVolumeHistoryInSQLite(coinHistory.total_volumes, coinId)
     }
@@ -119,7 +121,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     private fun storeTotalVolumeHistoryInSQLite(totalVolumes: List<List<Double>>, coinId: String) {
         val coinMarketTotalVolumesList: ArrayList<CoinMarketHistoryTotalVolume> = ArrayList()
         for (totalVolume in totalVolumes) {
-            val totalVolumeDecimal = formatTo5Decimals(BigDecimal(totalVolume[1]).toPlainString()).toDouble()
+            val totalVolumeDecimal = BigDecimal(totalVolume[1]).setScale(3, BigDecimal.ROUND_HALF_EVEN).toPlainString().toDouble()
             val date = unixTimeStampToDateString(BigDecimal(totalVolume[0]).toPlainString())
             val coinTotalVolumeHistory = CoinMarketHistoryTotalVolume(coinId, date, totalVolumeDecimal)
             coinMarketTotalVolumesList.add(coinTotalVolumeHistory)
@@ -133,7 +135,8 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     private fun storeMarketCapsHistoryInSQLite(marketCaps: List<List<Double>>, coinId: String) {
         val coinMarketCapsHistoryList: ArrayList<CoinMarketHistoryMarketCaps> = ArrayList()
         for (marketCap in marketCaps) {
-            val marketCapDecimal = formatTo5Decimals(BigDecimal(marketCap[1]).toPlainString()).toDouble()
+//            val marketCapDecimal = formatTo5Decimals(BigDecimal(marketCap[1]).toPlainString()).toDouble()
+            val marketCapDecimal = BigDecimal(marketCap[1]).setScale(3, BigDecimal.ROUND_HALF_EVEN).toPlainString().toDouble()
             val date = unixTimeStampToDateString(BigDecimal(marketCap[0]).toPlainString())
             val coinMarketCapHistory = CoinMarketHistoryMarketCaps(coinId, date, marketCapDecimal)
             coinMarketCapsHistoryList.add(coinMarketCapHistory)
@@ -144,7 +147,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    private fun storePriceHistoryInSQLite(prices: List<List<Double>>, coinId: String) {
+/*    private fun storePriceHistoryInSQLite(prices: List<List<Double>>, coinId: String) {
         val coinPriceHistoryList: ArrayList<CoinMarketHistoryPrices> = ArrayList()
         for (price in prices) {
             val priceDecimal = formatTo5Decimals(BigDecimal(price[1]).toPlainString()).toDouble()
@@ -157,7 +160,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
             dao.deleteAll()
             dao.insertAll(coinPriceHistoryList)
         }
-    }
+    }*/
 
     private fun storeCoinInfoInSQLite(coinList: List<Coin>) {
         launch {

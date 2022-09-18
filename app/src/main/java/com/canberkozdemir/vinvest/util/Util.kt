@@ -8,7 +8,12 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.canberkozdemir.vinvest.R
+import com.canberkozdemir.vinvest.model.CoinMarketHistoryPrices
+import com.canberkozdemir.vinvest.service.coin.CoinDatabase
+import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 

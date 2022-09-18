@@ -1,8 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Vinvest" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Vinvest" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/coinColor</item>
+<!--        <item name="colorPrimary">@color/purple_200</item>-->
         <item name="colorPrimaryVariant">@color/blackGr </item>
         <item name="colorOnPrimary">@color/blackGr</item>
         <!-- Secondary brand color. -->

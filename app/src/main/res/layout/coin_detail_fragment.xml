@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8sp"
-            android:text="@{selectedCoin.currentPrice}"
+            android:text="@{selectedCoin.currentPrice + '$'}"
             android:textAlignment="viewStart"
             android:textColor="@color/whiteText"
             android:textSize="16sp"
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8sp"
-            android:text="@{selectedCoin.high24H}"
+            android:text="@{selectedCoin.high24H + '$'}"
             android:textAlignment="viewStart"
             android:textColor="@color/highGreen"
             android:textSize="16sp"
@@ -162,7 +162,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="8sp"
             android:layout_marginEnd="16dp"
-            android:text="@{selectedCoin.low24H}"
+            android:text="@{selectedCoin.low24H + '$'}"
             android:textAlignment="viewStart"
             android:textColor="@color/lowRed"
             android:textSize="16sp"
@@ -170,6 +170,16 @@
             app:layout_constraintStart_toEndOf="@id/tvLow24HLabel"
             app:layout_constraintTop_toBottomOf="@+id/seperatorHor1" />
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvLow24H"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

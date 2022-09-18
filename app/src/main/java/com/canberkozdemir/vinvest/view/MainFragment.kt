@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.canberkozdemir.vinvest.R
 import com.canberkozdemir.vinvest.adapter.CoinAdapter
+import com.canberkozdemir.vinvest.util.Resource
+import com.canberkozdemir.vinvest.util.Status
 import com.canberkozdemir.vinvest.viewmodel.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
@@ -71,6 +74,15 @@ class MainFragment : Fragment() {
                     errorMessage.visibility = View.GONE
                 } else {
                     coinsLoading.visibility = View.GONE
+                }
+            }
+        }
+
+        viewModel.getCoinMessage.observe(viewLifecycleOwner) {
+            it?.let {
+                when(it.status){
+                    Status.SUCCESS -> Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG).show()
+                    else -> Snackbar.make(requireView(), "An error occurred!", Snackbar.LENGTH_LONG).show()
                 }
             }
         }

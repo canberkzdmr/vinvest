@@ -18,7 +18,7 @@ interface CoinDAO: BaseDAO<Coin> {
     suspend fun deleteAllCoins()
 
     @Query("select coinId from Coin where uuid = :coinId")
-    suspend fun getCoinId(coinId: String): String
+    suspend fun getCoinId(coinId: Int): String
 
     @Query("select coinId from Coin where coinId in ('bitcoin', 'ethereum', 'binancecoin')group by coinId")
     suspend fun getAllCoinIds(): List<String>

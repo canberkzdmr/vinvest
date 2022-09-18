@@ -18,6 +18,9 @@ interface CoinMarketHistoryPricesDAO : BaseDAO<CoinMarketHistoryPrices> {
     @Query("select * from coin_history_prices")
     suspend fun getAll(): List<CoinMarketHistoryPrices>
 
+    @Query("select * from coin_history_prices where coinId = :coinId")
+    suspend fun getHistoryById(coinId: String): List<CoinMarketHistoryPrices>
+
 /*    @Query("select * from coin_history_prices where coinId = :coinId")
     suspend fun getCoinPricesHistory(coinId: Int): CoinMarketHistoryPrices
 
